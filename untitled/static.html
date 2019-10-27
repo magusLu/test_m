@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <style>
+        #container{
+            width: 1000px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 一、新建一个容器 -->
+<div id="container" ></div>
+</body>
+
+<!--三、引入高德地图的js-->
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=99de00442735116958e3c7e4124354a1&plugin=AMap.DistrictSearch"></script>
+<!-- UI组件库 1.0 -->
+<script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script>
+
+
+    var markers = [];
+    var infoWindow;
+    var map = new AMap.Map('container', {
+        resizeEnable: true,
+        zoom: 5
+    });
+//    $.ajax({
+//        url : "eos_TranOrderFollowing/mapcartrans.do",
+//        type : "get",
+//        dataType : "json",
+//
+//        success : function(e) {
+            var data=[{"fLong":'112.00003','fLati':'38.2345','time':'20190807','infos':"hello"}
+            ,{"fLong":'115.00003','fLati':'38.2345','time':'20190807','infos':"hello"}
+            ,{"fLong":'114.00003','fLati':'38.2345','time':'20190807','infos':"hello"}
+            ,{"fLong":'116.00003','fLati':'38.2345','time':'20190807','infos':"hello"}];
+            var marker;
+            for(var i=0 ; i< data.length;i++){
+                var jfong=[ data[i].fLong,data[i].fLati];
+                marker = new AMap.Marker({
+                    position: jfong,
+                    zIndex: 101,
+                    map:map
+                });
+//                console.log(e.data[3]);
+                marker.setMap(map);
+//                marker.orderON=e.data[i].orderON;
+//                marker.tranOFID=e.data[i].tranOFID;
+//                marker.fhadd=e.data[i].fhadd;
+//                marker.sAdd=e.data[i].sAdd;
+//                marker.status=e.data[i].status;
+                marker.on('click', function(e){
+                infoWindow.setContent("<ul class='main'><li> 时间： <span style='color:blue'>"+data[1].time+"</span></li>"
+                    + "<li>  备注: <span style='color:blue'>"+data[1].infos+"  </span></li>");
+                infoWindow.open(map, e.lnglat);
+                });
+
+
+            }	// for-end
+
+            infoWindow = new AMap.InfoWindow({
+                isCustom:	true,
+                draggable: true,  //是否可拖动
+                offset: new AMap.Pixel(0, -31),
+                content:""
+            });
+//
+//        }
+//
+//
+//    }) //	Ajax结束
+    marker.setMap(map);
+    function closeInfoWindow() {
+        map.clearInfoWindow();
+    }
+</script>
